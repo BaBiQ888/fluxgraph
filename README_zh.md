@@ -1,3 +1,5 @@
+<img width="2816" height="1536" alt="Gemini_Generated_Image_foak6mfoak6mfoak" src="https://github.com/user-attachments/assets/97f0b29c-90fa-4056-9df4-319b58a9cd12" />
+
 # FluxGraph 🌌
 
 [🇬🇧 English](README.md) | [🇨🇳 简体中文](README_zh.md)
