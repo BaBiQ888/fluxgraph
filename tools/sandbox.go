@@ -11,7 +11,6 @@ import (
 type SandboxedTool struct {
 	base        interfaces.Tool
 	timeout     time.Duration
-	maxArgsSize int
 }
 
 func NewSandboxedTool(base interfaces.Tool, timeout time.Duration) *SandboxedTool {

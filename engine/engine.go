@@ -194,7 +194,7 @@ func (e *Engine) runLoop(ctx context.Context, sessionID string, currentState *co
 				state = state.WithStatus(core.StatusPaused)
 				_, _ = e.memoryStore.Save(ctx, sessionID, state)
 				if e.eventBus != nil {
-					e.eventBus.Publish(interfaces.Event{
+					_ = e.eventBus.Publish(interfaces.Event{
 						Type:      interfaces.EventAgentPaused,
 						SessionID: sessionID,
 						Payload:   map[string]any{"reason": ae.Cause.Error()},
@@ -238,7 +238,7 @@ func (e *Engine) runLoop(ctx context.Context, sessionID string, currentState *co
 			state = state.WithStatus(core.StatusPaused)
 			_, _ = e.memoryStore.Save(ctx, sessionID, state)
 			if e.eventBus != nil {
-				e.eventBus.Publish(interfaces.Event{
+				_ = e.eventBus.Publish(interfaces.Event{
 					Type:      interfaces.EventAgentPaused,
 					SessionID: sessionID,
 					Payload:   result.Interrupt.Payload,

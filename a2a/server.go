@@ -25,7 +25,6 @@ type Server struct {
 	router      *chi.Mux
 	engine      *engine.Engine
 	taskStore   interfaces.TaskStore
-	memoryStore interfaces.MemoryStore
 	eventBus    interfaces.EventBus
 	registry    interfaces.ToolRegistry
 	auth        *Authenticator
@@ -329,13 +328,13 @@ func (s *Server) handleTaskEvents(w http.ResponseWriter, r *http.Request) {
 
 	// Subscribe to all relevant life-cycle events
 	subID, _ := s.eventBus.Subscribe(interfaces.EventNodeCompleted, handler)
-	defer s.eventBus.Unsubscribe(subID)
+	defer func() { _ = s.eventBus.Unsubscribe(subID) }()
 	
 	subID2, _ := s.eventBus.Subscribe(interfaces.EventTaskCompleted, handler)
-	defer s.eventBus.Unsubscribe(subID2)
+	defer func() { _ = s.eventBus.Unsubscribe(subID2) }()
 
 	subID3, _ := s.eventBus.Subscribe(interfaces.EventAgentPaused, handler)
-	defer s.eventBus.Unsubscribe(subID3)
+	defer func() { _ = s.eventBus.Unsubscribe(subID3) }()
 
 	// Keep-alive ticker
 	ticker := time.NewTicker(15 * time.Second)

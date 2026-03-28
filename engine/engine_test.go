@@ -86,7 +86,7 @@ func TestReActLoopEndToEnd(t *testing.T) {
 	}, nil)
 
 	mockReg := mock.NewMockToolRegistry()
-	mockReg.Register(&mock.MockTool{
+	_ = mockReg.Register(&mock.MockTool{
 		ToolName:    "get_weather",
 		FixedResult: "Sunny, 25C",
 	})

@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"strings"
 	"time"
@@ -123,9 +122,7 @@ func (c *A2AClient) StreamEvents(ctx context.Context, agentURL, taskID string) (
 		for {
 			line, err := reader.ReadString('\n')
 			if err != nil {
-				if err != io.EOF {
-					// Logic for logging error could go here
-				}
+				// Stream ended or connection broke
 				return
 			}
 

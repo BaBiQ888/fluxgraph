@@ -81,9 +81,8 @@ func (b *Builder) checkReachability() {
 			if e.FromID == curr {
 				if !e.IsCond {
 					queue = append(queue, e.ToID)
-				} else {
-					// We can't strictly prove cond edge reachability beforehand, treat isolated statically linked meshes as soft alerts.
 				}
+				// We can't strictly prove cond edge reachability beforehand.
 			}
 		}
 	}

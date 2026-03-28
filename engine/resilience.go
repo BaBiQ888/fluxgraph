@@ -48,7 +48,7 @@ func (p RetryPolicy) Execute(ctx context.Context, fn func() error) error {
 		}
 
 		// Jitter ± 20 %.
-		jitter := time.Duration(float64(delay) * (0.8 + 0.4*rand.Float64()))
+		jitter := time.Duration(float64(delay) * (0.8 + 0.4*rand.Float64())) //nolint:gosec // math/rand is safe here for jitter
 		if jitter > p.MaxDelay {
 			jitter = p.MaxDelay
 		}

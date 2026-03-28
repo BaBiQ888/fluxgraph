@@ -169,6 +169,6 @@ func TestJSONRPC_CreateWebhook(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	var rpcResp a2a.RPCResponse
-	json.Unmarshal(w.Body.Bytes(), &rpcResp)
+	_ = json.Unmarshal(w.Body.Bytes(), &rpcResp)
 	assert.Nil(t, rpcResp.Error)
 }

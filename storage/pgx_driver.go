@@ -18,7 +18,7 @@ func NewPostgresDriver(url string, maxConns int) (*PgxDriver, error) {
 	if err != nil {
 		return nil, err
 	}
-	config.MaxConns = int32(maxConns)
+	config.MaxConns = int32(maxConns) //nolint:gosec // MaxConns from int is fine here
 
 	// Register pgvector type after connection is established
 	config.AfterConnect = func(ctx context.Context, conn *pgx.Conn) error {

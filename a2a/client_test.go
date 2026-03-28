@@ -18,7 +18,7 @@ func TestA2AClient_Discover(t *testing.T) {
 	card := a2a.AgentCard{Name: "RemoteAgent", Version: "1.0.0"}
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, "/.well-known/agent.json", r.URL.Path)
-		json.NewEncoder(w).Encode(card)
+		_ = json.NewEncoder(w).Encode(card)
 	})
 	ts := httptest.NewServer(handler)
 	defer ts.Close()
@@ -35,12 +35,12 @@ func TestA2AClient_StreamEvents(t *testing.T) {
 		// Send initial event
 		ev1 := interfaces.Event{Type: interfaces.EventNodeCompleted, TaskID: "t1"}
 		data1, _ := json.Marshal(ev1)
-		w.Write([]byte("data: " + string(data1) + "\n\n"))
+		_, _ = w.Write([]byte("data: " + string(data1) + "\n\n"))
 		
 		// Send completion event
 		ev2 := interfaces.Event{Type: interfaces.EventTaskCompleted, TaskID: "t1"}
 		data2, _ := json.Marshal(ev2)
-		w.Write([]byte("data: " + string(data2) + "\n\n"))
+		_, _ = w.Write([]byte("data: " + string(data2) + "\n\n"))
 	})
 	ts := httptest.NewServer(handler)
 	defer ts.Close()
@@ -63,7 +63,7 @@ func TestDelegateNode_Process(t *testing.T) {
 	// 1. Mock remote A2A Server
 	srvHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/.well-known/agent.json" {
-			json.NewEncoder(w).Encode(a2a.AgentCard{
+			_ = json.NewEncoder(w).Encode(a2a.AgentCard{
 				Capabilities: a2a.AgentCapabilities{Streaming: true},
 			})
 			return
@@ -76,7 +76,7 @@ func TestDelegateNode_Process(t *testing.T) {
 					ID: "remote-task-1",
 				},
 			}
-			json.NewEncoder(w).Encode(resp)
+			_ = json.NewEncoder(w).Encode(resp)
 			return
 		}
 		if r.URL.Path == "/tasks/remote-task-1/events" {
@@ -86,7 +86,7 @@ func TestDelegateNode_Process(t *testing.T) {
 				TaskID: "remote-task-1",
 			}
 			data, _ := json.Marshal(ev)
-			w.Write([]byte("data: " + string(data) + "\n\n"))
+			_, _ = w.Write([]byte("data: " + string(data) + "\n\n"))
 			return
 		}
 	})

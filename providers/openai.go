@@ -207,7 +207,7 @@ func (p *OpenAIProvider) handleHTTPError(resp *http.Response) error {
 		retryAfterStr := resp.Header.Get("Retry-After")
 		dur := 5 * time.Second
 		if retryAfterStr != "" {
-			// Phase2 specific backoff mapping.
+			_ = retryAfterStr // Phase2 specific backoff mapping.
 		}
 		return core.NewRetriableError("OpenAIProvider", errBody, dur)
 	case 400, 401, 403, 404:

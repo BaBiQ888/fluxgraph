@@ -40,7 +40,6 @@ type tokenCounter struct {
 // TokenCounterHook accumulates token usage per (tenant, model) dimension.
 type TokenCounterHook struct {
 	counters map[string]*tokenCounter
-	lastUsage map[string]int // stash usage from LLMResponse via Variables
 }
 
 func NewTokenCounterHook() *TokenCounterHook {

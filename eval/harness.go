@@ -83,7 +83,7 @@ func (h *EvalHarness) RunTestCase(ctx context.Context, tc TestCase) Result {
 	// Inject tenant_id into context if present in variables
 	runCtx := ctx
 	if tid, ok := tc.Variables["tenant_id"].(string); ok {
-		runCtx = context.WithValue(ctx, "tenantID", tid)
+		runCtx = context.WithValue(ctx, "tenantID", tid) //nolint:staticcheck
 	}
 
 	finalState, err := h.engine.Start(runCtx, sessionID, state)

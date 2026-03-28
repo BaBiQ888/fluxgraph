@@ -16,7 +16,7 @@ func TestObservabilityHooks(t *testing.T) {
 	// Initialize Tracer
 	tp, err := observability.InitTracer("test-service")
 	require.NoError(t, err)
-	defer tp.Shutdown(context.Background())
+	defer func() { _ = tp.Shutdown(context.Background()) }()
 
 	otelHook := observability.NewOtelTracingHook()
 	metricsHook := observability.NewPrometheusMetricHook()

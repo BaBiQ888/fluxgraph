@@ -93,7 +93,7 @@ func main() {
 	builder := graph.NewBuilder()
 	g, _ := builder.Build()
 	reg := tools.NewConcreteToolRegistry()
-	reg.Register(tools.NewSearchMemoryTool(pgStore))
+	_ = reg.Register(tools.NewSearchMemoryTool(pgStore))
 	
 	eng := engine.NewEngine(g, memStore, nil, 
 		engine.WithHooks(
@@ -116,8 +116,9 @@ func main() {
 
 	// HTTP Server
 	httpSrv := &http.Server{
-		Addr:    fmt.Sprintf(":%d", cfg.App.Port),
-		Handler: a2aSrv,
+		Addr:              fmt.Sprintf(":%d", cfg.App.Port),
+		Handler:           a2aSrv,
+		ReadHeaderTimeout: 5 * time.Second,
 	}
 
 	go func() {

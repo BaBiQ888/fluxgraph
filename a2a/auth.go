@@ -74,8 +74,8 @@ func (a *Authenticator) Middleware(next http.Handler) http.Handler {
 		}
 
 		// Inject tenantID into context
-		ctx := context.WithValue(r.Context(), "tenantID", claims.TenantID)
-		ctx = context.WithValue(ctx, "scopes", claims.Scopes)
+		ctx := context.WithValue(r.Context(), "tenantID", claims.TenantID) //nolint:staticcheck
+		ctx = context.WithValue(ctx, "scopes", claims.Scopes)              //nolint:staticcheck
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
