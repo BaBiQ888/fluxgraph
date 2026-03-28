@@ -1,5 +1,7 @@
 # FluxGraph 🌌
 
+[🇬🇧 English](README.md) | [🇨🇳 简体中文](README_zh.md)
+
 FluxGraph 是一个生产级、高并发的 Golang AI 智能体（Agent）开发框架。它采用状态机图编排范式，相当于智能体服务的“微型操作系统”，开箱即用地提供了状态流转、可回溯记忆、可观测性以及原生的智能体间（A2A, Agent-to-Agent）通信协议。
 
 ## 核心特性 🚀
@@ -23,18 +25,18 @@ FluxGraph 是一个生产级、高并发的 Golang AI 智能体（Agent）开发
 ### 环境安装
 
 ```bash
-git clone https://github.com/FluxGraph/fluxgraph.git
+git clone https://github.com/BaBiQ888/fluxgraph.git
 cd fluxgraph
 go mod download
 ```
 
 ### 启动基础设施
 
-系统强依赖 Redis 与 带有向量拓展的 Postgres，我们提供了开箱即用的编排文件：
+系统强依赖 Redis 与 带有向量拓展的 Postgres，我们提供了开箱即用的编排文件，您也可以直接使用 Makefile：
 
 ```bash
 # 以后台模式启动 Postgres (pgvector), Redis, Jaeger 以及 Prometheus
-docker-compose up -d
+make docker-up
 
 # 提示：持久层的建表及索引扩展语句将通过 ./migrations 目录被容器自动挂载执行。
 ```
@@ -44,7 +46,8 @@ docker-compose up -d
 拷贝 `.env.example` 为 `.env` 并填入您的 `OPENAI_API_KEY` 及其他信息，随后执行：
 
 ```bash
-go run cmd/fluxgraph/main.go
+cp .env.example .env
+make run
 ```
 
 ## 架构简述 🏗️
@@ -54,6 +57,10 @@ go run cmd/fluxgraph/main.go
 - **`/providers`**：标准化的大模型供应商接入层，支持多模态及结构化流返回。
 - **`/storage`**：抽象的 `MemoryStore` 实现，封装热冷两层的调度逻辑。
 - **`/tools`**：执行工具的抽象沙盒及注册表（Registry）。
+- **`/a2a`**：智能体互联通信协议模块（支持 gRPC 远程调用机制与 HTTP 接口）。
+
+## 参与贡献
+这是一个开源生态系统建设的起点，我们非常欢迎来自社区的 Issue 建议或拉取请求 (Pull Requests)！
 
 ## 开源协议
 

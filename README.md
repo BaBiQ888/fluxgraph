@@ -1,5 +1,7 @@
 # FluxGraph 🌌
 
+[🇨🇳 简体中文](README_zh.md) | [🇬🇧 English](README.md)
+
 FluxGraph is a production-grade, high-concurrency Go framework for building state-machine based AI Agents. It serves as an operating system layer for your agents, providing built-in orchestration, resilient memory, observability, and Agent-to-Agent (A2A) communication protocols out-of-the-box.
 
 ## Core Features 🚀
@@ -23,7 +25,7 @@ FluxGraph is a production-grade, high-concurrency Go framework for building stat
 ### Installation
 
 ```bash
-git clone https://github.com/FluxGraph/fluxgraph.git
+git clone https://github.com/BaBiQ888/fluxgraph.git
 cd fluxgraph
 go mod download
 ```
@@ -34,7 +36,7 @@ FluxGraph requires Redis and Postgres with the pgvector extension. A `docker-com
 
 ```bash
 # Start Postgres (pgvector), Redis, Jaeger, and Prometheus services
-docker-compose up -d
+make docker-up
 
 # Notice: Database tables will be automatically initialized via the mounted ./migrations scripts
 ```
@@ -44,7 +46,8 @@ docker-compose up -d
 Make sure to configure your environment variables (refer to `.env.example`), then run:
 
 ```bash
-go run cmd/fluxgraph/main.go
+cp .env.example .env
+make run
 ```
 
 ## Architecture Layers 🏗️
@@ -54,6 +57,10 @@ go run cmd/fluxgraph/main.go
 - **`/providers`**: Unified, resettable bindings to underlying LLMs.
 - **`/storage`**: Implementations of the `MemoryStore` interface.
 - **`/tools`**: Tool execution bindings, dynamically injectable into the LLM context.
+- **`/a2a`**: Agent-to-Agent protocol over gRPC and proper HTTP bindings.
+
+## Contributing
+We welcome contributions! Please open an issue or submit a pull request if you'd like to improve FluxGraph.
 
 ## License
 
