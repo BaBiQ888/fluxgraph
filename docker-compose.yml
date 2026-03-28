@@ -1,0 +1,102 @@
+version: '3.8'
+
+networks:
+  fluxgraph_net:
+    driver: bridge
+
+services:
+  # 1. Persistent Storage (Cold Layer)
+  postgres:
+    image: ankane/pgvector:v0.5.1
+    container_name: fluxgraph-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: fluxgraph
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: fluxgraph
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./migrations:/docker-entrypoint-initdb.d
+    networks:
+      - fluxgraph_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fluxgraph -d fluxgraph"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # 2. Session & Cache (Hot Layer)
+  redis:
+    image: redis:7-alpine
+    container_name: fluxgraph-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+    networks:
+      - fluxgraph_net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # 3. Distributed Tracing (OTel)
+  jaeger:
+    image: jaegertracing/all-in-one:1.53
+    container_name: fluxgraph-jaeger
+    restart: unless-stopped
+    ports:
+      - "16686:16686" # UI
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - fluxgraph_net
+
+  # 4. Metrics (Prometheus)
+  prometheus:
+    image: prom/prometheus:v2.49.1
+    container_name: fluxgraph-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./scripts/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    networks:
+      - fluxgraph_net
+
+  # 5. Dashboard (Grafana)
+  grafana:
+    image: grafana/grafana:10.3.3
+    container_name: fluxgraph-grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    depends_on:
+      - prometheus
+    networks:
+      - fluxgraph_net
+
+volumes:
+  pg_data:
+  redis_data:
+  prometheus_data:
+  grafana_data:

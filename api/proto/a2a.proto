@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package fluxgraph.a2a.v1;
+
+option go_package = "github.com/FluxGraph/fluxgraph/api/proto/a2a;a2apb";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+
+// AgentService provides the core A2A interaction layer.
+service AgentService {
+  // SendMessage submits a message to the agent and initiates task execution.
+  rpc SendMessage(SendMessageRequest) returns (SendMessageResponse);
+  
+  // GetTask retrieves the current status and history of a task.
+  rpc GetTask(GetTaskRequest) returns (Task);
+
+  // StreamTaskEvents provides a real-time stream of task execution events.
+  rpc StreamTaskEvents(StreamTaskEventsRequest) returns (stream TaskEvent);
+}
+
+message SendMessageRequest {
+  string task_id = 1;
+  string context_id = 2;
+  Message message = 3;
+  bool return_immediately = 4;
+}
+
+message SendMessageResponse {
+  Task task = 1;
+}
+
+message GetTaskRequest {
+  string task_id = 1;
+}
+
+message StreamTaskEventsRequest {
+  string task_id = 1;
+}
+
+message Message {
+  string role = 1; // user, assistant, system, tool
+  repeated Part parts = 2;
+  google.protobuf.Timestamp created_at = 3;
+}
+
+message Part {
+  oneof content {
+    string text = 1;
+    ToolCall tool_call = 2;
+    ToolResult tool_result = 3;
+  }
+}
+
+message ToolCall {
+  string call_id = 1;
+  string tool_name = 2;
+  google.protobuf.Struct arguments = 3;
+}
+
+message ToolResult {
+  string call_id = 1;
+  string result = 2;
+}
+
+message Task {
+  string id = 1;
+  string context_id = 2;
+  string tenant_id = 3;
+  TaskStatus status = 4;
+  repeated Message history = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+message TaskStatus {
+  string state = 1; // submitted, working, input_required, completed, failed
+  string detail = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+message TaskEvent {
+  string type = 1;
+  string task_id = 2;
+  google.protobuf.Struct data = 3;
+  google.protobuf.Timestamp timestamp = 4;
+}
