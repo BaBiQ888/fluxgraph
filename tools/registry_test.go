@@ -54,13 +54,13 @@ func TestConcreteToolRegistry_Permissions(t *testing.T) {
 	assert.NoError(t, r.Register(&EchoTool{}))
 	r.GrantPermission("tenantA", "echo")
 
-	ctx := context.WithValue(context.Background(), "tenantID", "tenantA")
+	ctx := context.WithValue(context.Background(), "tenantID", "tenantA") //nolint:staticcheck
 	results := r.ExecuteConcurrent(ctx, []core.ToolCallPart{
 		{CallID: "c1", ToolName: "echo", Arguments: map[string]any{"message": "ok"}},
 	})
 	assert.False(t, results[0].IsError)
 
-	ctxB := context.WithValue(context.Background(), "tenantID", "tenantB")
+	ctxB := context.WithValue(context.Background(), "tenantID", "tenantB") //nolint:staticcheck
 	resultsB := r.ExecuteConcurrent(ctxB, []core.ToolCallPart{
 		{CallID: "c2", ToolName: "echo", Arguments: map[string]any{"message": "ok"}},
 	})

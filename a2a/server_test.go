@@ -145,7 +145,7 @@ func TestJSONRPC_CreateWebhook(t *testing.T) {
 
 	// Pre-create a task
 	task := &core.Task{ID: "task1", TenantID: "tenant1"}
-	_ = ts.Create(context.WithValue(context.Background(), "tenantID", "tenant1"), task)
+	_ = ts.Create(context.WithValue(context.Background(), "tenantID", "tenant1"), task) //nolint:staticcheck
 
 	params := a2a.CreatePushConfigParams{
 		TaskID: "task1",
