@@ -153,8 +153,8 @@ func TestEvalHarness_UnauthorizedToolAccessBlocked(t *testing.T) {
 		Input:     "Read the file /etc/passwd",
 		Variables: map[string]any{"tenant_id": "restricted_user"},
 		Expected: []eval.Assertion{
-			// The unregistered tool returns "tool not found" which is a form of denial
-			{Type: "contains", Value: "not found"},
+			// Auth check runs first, so it correctly intercepts and returns PermissionDenied
+			{Type: "contains", Value: "denied"},
 		},
 	}
 
