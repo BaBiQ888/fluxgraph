@@ -70,10 +70,10 @@ package main
 
 import (
     "context"
-    "github.com/FluxGraph/fluxgraph/core"
-    "github.com/FluxGraph/fluxgraph/engine"
-    "github.com/FluxGraph/fluxgraph/graph"
-    "github.com/FluxGraph/fluxgraph/interfaces"
+    "github.com/BaBiQ888/fluxgraph/core"
+    "github.com/BaBiQ888/fluxgraph/engine"
+    "github.com/BaBiQ888/fluxgraph/graph"
+    "github.com/BaBiQ888/fluxgraph/interfaces"
 )
 
 // Define your processing Node
