@@ -61,6 +61,33 @@ The framework is decoupled into highly independent modules:
 
 ---
 
+## 📚 Documentation (In Chinese)
+
+We have prepared comprehensive, official-grade documentation in Chinese to guide you from zero to building production-ready Microservices Agents:
+
+**Phase 1: Concepts & Quickstart**
+1. [Overview & Why FluxGraph?](docs/zh/01_overview.md)
+2. [5-Minute Quickstart](docs/zh/02_quickstart.md)
+3. [Thinking with FluxGraph (State Machine Primitives)](docs/zh/03_concepts.md)
+
+**Phase 2: Execution Engine**
+4. [Nodes, Edges & Workflow Redirection](docs/zh/04_workflows.md)
+5. [LLM Providers & Tool Sandbox](docs/zh/05_providers_tools.md)
+
+**Phase 3: Advanced Features**
+6. [Resilience: State Persistence, Retries & Streaming](docs/zh/06_advanced_execution.md)
+7. [Enterprise Level: Human-in-the-loop & A2A Remote Subgraphs](docs/zh/07_interrupts_subgraphs.md)
+
+**Phase 4: Dual-Tier Memory System**
+8. [High-Speed Redis & Native PostgreSQL pgvector RAG](docs/zh/08_memory_rag.md)
+
+**Phase 5: Production & Deployment**
+9. [Eval Harness & Sanitizer Security Guards](docs/zh/09_testing_eval.md)
+10. [Observability: OpenTelemetry (OTel) Tracing & Local Inspector](docs/zh/10_observability.md)
+11. [Microservice Directory Architecture & Docker Deployment](docs/zh/11_deployment.md)
+
+---
+
 ## 💻 How to Use
 
 Developing with FluxGraph feels perfectly natural. You merely define isolated business "Nodes" and assemble them into a directed graph pipeline.

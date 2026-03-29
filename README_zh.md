@@ -61,6 +61,33 @@ FluxGraph 并不是另一个仅仅封装大语言模型（LLM）API 的请求库
 
 ---
 
+## 📚 官方文档阅读指南 (Documentation)
+
+我们为 FluxGraph 准备了系统级、媲美官方实体书级量的全景中文文档，供您从零进阶为 Agent 微服务架构师：
+
+**阶段一：入门与理念**
+1. [什么是 FluxGraph？](docs/zh/01_overview.md)
+2. [5分钟快速开始构建第一个 Agent](docs/zh/02_quickstart.md)
+3. [使用 FluxGraph 思考 (状态机原语理论)](docs/zh/03_concepts.md)
+
+**阶段二：执行引擎流转**
+4. [节点、条件边与重定向工作流机制](docs/zh/04_workflows.md)
+5. [LLM 大模型组件接入与 Tool 执行沙盒](docs/zh/05_providers_tools.md)
+
+**阶段三：核心高级特性**
+6. [高级机制：状态断点持久化、重试容错与流式推算](docs/zh/06_advanced_execution.md)
+7. [高可用管控：人类在环审查机制 与 A2A 分布式子图代理](docs/zh/07_interrupts_subgraphs.md)
+
+**阶段四：企业级记忆引擎**
+8. [极速热层 Redis 与 原生集成 PostgreSQL 向量 RAG 的盲区搜寻](docs/zh/08_memory_rag.md)
+
+**阶段五：上线与生产治理**
+9. [Eval Harness 安全基准测评与 Sanitizer 数据防注入清洗](docs/zh/09_testing_eval.md)
+10. [生产透视：一行代码接入 OTel/Jaeger 链路追踪与可视化命令行](docs/zh/10_observability.md)
+11. [微服务最佳目录架构与 Docker 实干发布指南](docs/zh/11_deployment.md)
+
+---
+
 ## 💻 如何使用 (How to use)
 
 FluxGraph 的开发体验极为自然，您只需定义好不同的业务处理 "节点"，并将它们组装为图状流水线即可开始工作。
