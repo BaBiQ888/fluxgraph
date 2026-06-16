@@ -178,6 +178,19 @@ cp .env.example .env
 make run
 ```
 
+### 🎬 Visual Demo (Zero Dependencies)
+
+Want to see FluxGraph in action without setting up Redis, PostgreSQL, or an LLM key? Run the interactive visualization:
+
+```bash
+make demo
+# then open http://localhost:8080
+```
+
+This boots a self-contained customer-support triage agent with 8 nodes covering all three core patterns — **tool calls**, **conditional routing**, and **human-in-the-loop**. Every node lights up in real time as the engine executes it, streaming `LifecycleHook` events over Server-Sent Events. Try the three preset buttons (退款 / 查订单 / 转人工) to see the graph fan out into different branches; the escalation path pauses mid-execution and waits for your approval before continuing.
+
+The demo lives at [examples/visual-demo/](examples/visual-demo/) and is the shortest path to understanding how the `graph`, `engine`, `memory`, `mock`, and `tools` packages compose.
+
 ---
 
 ## 🤝 Contributing

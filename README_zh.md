@@ -178,6 +178,24 @@ cp .env.example .env
 make run
 ```
 
+### 🎬 可视化 Demo（零依赖）
+
+想直观感受 FluxGraph 而不想搭 Redis / PostgreSQL / 配 LLM Key？跑这条命令：
+
+```bash
+make demo
+# 然后访问 http://localhost:8080
+```
+
+它会启动一个内置的"客服工单三向分流" Agent，8 个节点覆盖框架三大核心能力——**工具调用**、**条件分支**、**人在回路**。引擎每执行一个节点，浏览器里对应的圈圈就会实时变色（蓝色=运行中，绿色=完成，黄色=暂停等审批），事件流通过 `LifecycleHook` + SSE 实时推送。
+
+点页面右上的三个预设按钮即可看到三条不同的执行路径：
+- **退款** → `intake → classify → refund_tool → respond_refund`
+- **查订单** → `intake → classify → query_tool → respond_query`
+- **转人工** → 走到 `human_review` 节点会**暂停**，弹出 Approve / Reject 按钮，点了之后图才继续往下走到 `respond_escalated`
+
+代码在 [examples/visual-demo/](examples/visual-demo/)，是理解 `graph` / `engine` / `memory` / `mock` / `tools` 各包如何协作最短的一条路径。
+
 ---
 
 ## 🤝 参与贡献

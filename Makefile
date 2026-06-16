@@ -1,4 +1,4 @@
-.PHONY: dev test lint build run clean proto docker-up docker-down
+.PHONY: dev test lint build run demo clean proto docker-up docker-down
 
 # Local Development Commands
 dev:
@@ -6,6 +6,11 @@ dev:
 
 run:
 	go run cmd/fluxgraph/main.go
+
+# Zero-dependency browser demo (no Redis/Postgres/LLM key required).
+# Opens an interactive graph visualization at http://localhost:8080
+demo:
+	go run ./examples/visual-demo
 
 test:
 	go test -v -race ./...
